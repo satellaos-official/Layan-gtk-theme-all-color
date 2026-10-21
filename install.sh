@@ -2,6 +2,9 @@
 #
 # Layan GTK theme installer
 #
+# Run it from the project root (the folder that contains this script and src/).
+# The themes are read directly from ./src/Layan-*; nothing is extracted or deleted.
+#
 # Usage:
 #   bash install.sh -u        Install for the current user only  (no sudo)   -> $HOME/.themes/
 #   sudo bash install.sh -s   Install system-wide                (sudo)      -> /usr/share/themes/
@@ -12,9 +15,7 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-THEME_SRC="/tmp/themes"
-ARCHIVE_DIR="${SCRIPT_DIR}/archive"
-ARCHIVE_FILE="${ARCHIVE_DIR}/Layan-all-colors.tar.gz"
+THEME_SRC="${SCRIPT_DIR}/src"
 
 # ---------- logging helpers ----------
 log_info()  { echo -e "[INFO]  $*"; }
@@ -47,35 +48,11 @@ Flags can be combined, e.g.: sudo bash install.sh -s -a
 EOF
 }
 
-# ---------- extract theme archive into themes/ ----------
-extract_archive() {
-  if [[ ! -f "${ARCHIVE_FILE}" ]]; then
-    log_error "Archive not found: ${ARCHIVE_FILE}"
-    exit 1
-  fi
-
-  log_info "Extracting theme archive..."
-  mkdir -p "${THEME_SRC}"
-
-  if ! tar -xzf "${ARCHIVE_FILE}" -C "${THEME_SRC}"; then
-    log_error "Failed to extract ${ARCHIVE_FILE}"
-    exit 1
-  fi
-
-  log_ok "Extracted archive contents to ${THEME_SRC}"
-}
-
-# ---------- remove extracted contents from themes/ after install ----------
-deleting_themes() {
-  log_info "Deleting up extracted files in ${THEME_SRC}..."
-  rm -rf "${THEME_SRC:?}"
-  log_ok "Deleting up ${THEME_SRC}"
-}
-
 # ---------- sanity check: theme source exists ----------
 check_source() {
   if [[ ! -d "${THEME_SRC}" ]]; then
     log_error "Theme source directory not found: ${THEME_SRC}"
+    log_error "Run this script from the project folder that contains the 'src' directory."
     exit 1
   fi
   if ! compgen -G "${THEME_SRC}/Layan-*" > /dev/null; then
@@ -158,7 +135,6 @@ while getopts ":usah" opt; do
   esac
 done
 
-extract_archive
 check_source
 
 STATUS=0
@@ -174,7 +150,5 @@ fi
 if ${DO_USER}; then
   install_user || STATUS=1
 fi
-
-deleting_themes
 
 exit ${STATUS}

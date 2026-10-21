@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Layan-Brown-Light
+Comment=An Flat Gtk+ theme based on Material Design
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Layan-Brown-Light
+MetacityTheme=Layan-Brown-Light
+IconTheme=Tela
+CursorTheme=Adwaita
+ButtonLayout=menu:minimize,maximize,close

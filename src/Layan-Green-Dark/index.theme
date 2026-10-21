@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Layan-Green-Dark
+Comment=An Flat Gtk+ theme based on Material Design
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Layan-Green-Dark
+MetacityTheme=Layan-Green-Dark
+IconTheme=Tela-Dark
+CursorTheme=Adwaita
+ButtonLayout=menu:minimize,maximize,close
